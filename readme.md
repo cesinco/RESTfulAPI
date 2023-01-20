@@ -605,7 +605,7 @@ Natural-flavored strawberry with an anti-oxidant kick.
 1.99
 ```
 
-Furthermore, this is a problem that affects anything related to using Product. For example, the statement Product.objects.count() always returns 0 when running the tests (you can confirm this by issuing print() commands), but clearly the Product model does contain data as we can verify fom the shell. Even though the create test passes, somehow the initial count is 0, gets incremented to 1 but the data is not reflected in the database - almost as if the test were accessing a virtual model in memory, but not on disk.
+Even though the create test passes, somehow the initial count is 0, gets incremented to 1 but the data is not reflected in the database - almost as if the test were accessing a virtual model in memory, but not on disk.
 
 In summary, none of the APITestCase code worked as expected, at least in using later versions (current as of 2023.01.17) of the frameworks.
 

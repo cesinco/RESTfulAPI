@@ -588,7 +588,7 @@ Traceback (most recent call last):
 AttributeError: 'NoneType' object has no attribute 'id'
 ```
 
-I have been unable to determine why this code would fail in test, but not in shell. For example:
+Previously, I had been unable to determine why this code would fail in test, but not in shell. For example:
 
 ```Pyhon
 (RESTfulAPI) E:\Django\RESTfulAPI>python manage.py shell
@@ -608,3 +608,11 @@ Natural-flavored strawberry with an anti-oxidant kick.
 Furthermore, this is a problem that affects anything related to using Product. For example, the statement Product.objects.count() always returns 0 when running the tests (you can confirm this by issuing print() commands), but clearly the Product model does contain data as we can verify fom the shell. Even though the create test passes, somehow the initial count is 0, gets incremented to 1 but the data is not reflected in the database - almost as if the test were accessing a virtual model in memory, but not on disk.
 
 In summary, none of the APITestCase code worked as expected, at least in using later versions (current as of 2023.01.17) of the frameworks.
+
+New investigation revealed that yes - the DRF APITestCase does not commit any changes to the physical database, so it must be working with an in-memory, virtual database created from the model.
+
+Significantly, when we finish executing the tests, we may see a message such as, the following indicating that the database used during testing is not the physical database we are working with:
+
+```
+Destroying test database for alias 'default'...
+```
